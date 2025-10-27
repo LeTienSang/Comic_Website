@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { AuthService } from '../services/auth';
 
 const LoginPage = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -15,10 +18,19 @@ const LoginPage = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Login attempt:', formData);
-        alert('Login functionality will be implemented later!');
+        const data= {
+            email: formData.email,
+            password: formData.password
+        }
+        const res= await AuthService.login(data);
+        AuthService.saveTokens(res);
+        console.log('Login response:', res);
+        // Redirect or update UI after successful login
+        navigate('/');
+        
     };
 
     return (
