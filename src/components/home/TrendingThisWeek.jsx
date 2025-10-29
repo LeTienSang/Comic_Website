@@ -9,7 +9,6 @@ const TrendingThisWeek = () => {
       title: "Comic Name",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      title: "Comic Name",
       genre: ["Academy", "Action"],
       rating: 9.3,
       type: "Manga",
