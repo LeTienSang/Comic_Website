@@ -1,4 +1,5 @@
 import axios from "axios";
+import api from "./api";
 
 const API_URL = "http://localhost:8000/users"; // URL backend Django
 
@@ -17,6 +18,10 @@ export const AuthService = {
       email,
       password,
     });
+    return response.data;
+  },
+  async getCurrentUser() {
+    const response = await api.get("users/me/");
     return response.data;
   },
 
