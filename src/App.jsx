@@ -14,6 +14,7 @@ import MyComic from "./uploader/MyComic";
 import NewComicForm from "./uploader/NewComicForm";
 import EditComicForm from "./uploader/EditComicForm";
 import UploadChapter from "./uploader/UploadChapter";
+import CommentPage from './pages/CommentPage';
 
 function App() {
   return (
@@ -51,6 +52,9 @@ function App() {
           <Layout>
             <ChapterPage />
           </Layout>
+        } />
+        <Route path="/comments" element={
+          <CommentPage/>
         } />
 
         {/* Uploader Routes */}

@@ -1,174 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ComicCard from '../common/ComicCard';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import { getComics } from '../../services/comic'; // 🟢 dùng service gọi API
 
 const LatestReleases = () => {
-  const comics = [
-    {
-      id: 1,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 17',
-      isHot: true,
-      timeAgo: '2 min ago',
-      author: 'Author Name',
-      status: 'Ongoing',
-      genres: ['Action', 'Crime', 'Drama', 'School Life'],
-      rating: '9.2',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 2,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 179',
-      isHot: false,
-      timeAgo: '15 min ago',
-      author: 'Author Name',
-      status: 'Completed',
-      genres: ['Action', 'Adventure', 'Fantasy', 'Supernatural'],
-      rating: '9.8',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 3,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 588',
-      isHot: true,
-      timeAgo: '30 min ago',
-      author: 'Author Name',
-      status: 'Ongoing',
-      genres: ['Adventure', 'Drama', 'Fantasy', 'Mystery'],
-      rating: '9.1',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 4,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 1095',
-      isHot: false,
-      timeAgo: '1 hour ago',
-      author: 'Author Name',
-      status: 'Ongoing',
-      genres: ['Action', 'Adventure', 'Comedy', 'Shounen'],
-      rating: '9.6',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 5,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 1095',
-      isHot: false,
-      timeAgo: '1 hour ago',
-      author: 'Author Name',
-      status: 'Ongoing',
-      genres: ['Action', 'Adventure', 'Comedy', 'Shounen'],
-      rating: '9.6',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 6,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 1095',
-      isHot: false,
-      timeAgo: '1 hour ago',
-      author: 'Author Name',
-      status: 'Ongoing',
-      genres: ['Action', 'Adventure', 'Comedy', 'Shounen'],
-      rating: '9.6',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 7,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 1095',
-      isHot: false,
-      timeAgo: '1 hour ago',
-      author: 'Author Name',
-      status: 'Ongoing',
-      genres: ['Action', 'Adventure', 'Comedy', 'Shounen'],
-      rating: '9.6',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 8,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 1095',
-      isHot: false,
-      timeAgo: '1 hour ago',
-      author: 'Author Name',
-      status: 'Ongoing',
-      genres: ['Action', 'Adventure', 'Comedy', 'Shounen'],
-      rating: '9.6',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 9,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 1095',
-      isHot: false,
-      timeAgo: '1 hour ago',
-      author: 'Author Name',
-      status: 'Ongoing',
-      genres: ['Action', 'Adventure', 'Comedy', 'Shounen'],
-      rating: '9.6',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 10,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 1095',
-      isHot: false,
-      timeAgo: '1 hour ago',
-      author: 'Author Name',
-      status: 'Ongoing',
-      genres: ['Action', 'Adventure', 'Comedy', 'Shounen'],
-      rating: '9.6',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 11,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 1095',
-      isHot: false,
-      timeAgo: '1 hour ago',
-      author: 'Author Name',
-      status: 'Ongoing',
-      genres: ['Action', 'Adventure', 'Comedy', 'Shounen'],
-      rating: '9.6',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      id: 12,
-      imageUrl: '/banners/trending.jpg',
-      title: 'Comic Name',
-      chapter: 'Chapter 1095',
-      isHot: false,
-      timeAgo: '1 hour ago',
-      author: 'Author Name',
-      status: 'Ongoing',
-      genres: ['Action', 'Adventure', 'Comedy', 'Shounen'],
-      rating: '9.6',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-  ];
+  const [comics, setComics] = useState([]);
 
-  const handleComicClick = (comic) => {
-    console.log('Clicked comic:', comic.title);
-    // Thêm logic điều hướng tại đây
-  };
+  // 🟢 Fetch danh sách comic từ backend
+  useEffect(() => {
+    const fetchComics = async () => {
+      try {
+        const res = await getComics();
+        console.log("Fetched comics:", res);
+        setComics(res); // nếu API trả về mảng comic
+      } catch (error) {
+        console.error("Error fetching comics:", error.response?.data || error.message);
+      }
+    };
+    fetchComics();
+  }, []);
 
   return (
     <div>
@@ -186,41 +39,31 @@ const LatestReleases = () => {
             prevEl: '.swiper-button-prev-custom',
           }}
           breakpoints={{
-            640: {
-              slidesPerView: 3,
-              spaceBetween: 20,
-            },
-            768: {
-              slidesPerView: 4,
-              spaceBetween: 24,
-            },
-            1024: {
-              slidesPerView: 5,
-              spaceBetween: 24,
-            },
-            1280: {
-              slidesPerView: 6,
-              spaceBetween: 28,
-            },
+            640: { slidesPerView: 3, spaceBetween: 20 },
+            768: { slidesPerView: 4, spaceBetween: 24 },
+            1024: { slidesPerView: 5, spaceBetween: 24 },
+            1280: { slidesPerView: 6, spaceBetween: 28 },
           }}
           className="!pb-8 !overflow-visible"
         >
-          {comics.map((comic) => (
-            <SwiperSlide key={comic.id} className="!overflow-visible">
-              <ComicCard
-                imageUrl={comic.imageUrl}
-                title={comic.title}
-                chapter={comic.chapter}
-                timeAgo={comic.timeAgo}
-                author={comic.author}
-                status={comic.status}
-                genres={comic.genres}
-                rating={comic.rating}
-                description={comic.description}
-                comicId={comic.id}
-              />
-            </SwiperSlide>
-          ))}
+          {comics.length > 0 ? (
+            comics.map((comic) => (
+              <SwiperSlide key={comic.id} className="!overflow-visible">
+                <ComicCard
+                  imageUrl={comic.cover_image || '/default-comic.jpg'}
+                  title={comic.title}
+                  timeAgo={comic.created_at ? new Date(comic.created_at).toLocaleDateString() : ''}
+                  author={comic.author}
+                  status={comic.status || 'Ongoing'}
+                  genres={comic.genres || []}
+                  description={comic.description}
+                  comicId={comic.id}
+                />
+              </SwiperSlide>
+            ))
+          ) : (
+            <p className="text-center text-gray-500 mt-4">No comics available</p>
+          )}
         </Swiper>
 
         {/* Custom Navigation Buttons */}

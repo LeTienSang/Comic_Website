@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { createChapter } from '../services/chapterService'; // 🆕 import service
 
 const UploadChapter = () => {
     const { comicId } = useParams();
@@ -7,38 +8,45 @@ const UploadChapter = () => {
     const [formData, setFormData] = useState({
         chapterNumber: '',
         chapterTitle: '',
-        images: []
+        content: '',
+        image: null,
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        setFormData(prev => ({
-            ...prev,
-            images: files
-        }));
+        const file = e.target.files[0];
+        setFormData(prev => ({ ...prev, image: file }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Uploading chapter:', formData);
-        // Add API call here
-        navigate('/uploader/my-comics');
+        try {
+            console.log('Uploading chapter:', formData);
+            await createChapter(comicId, formData);
+            alert("✅ Chapter uploaded successfully!");
+            navigate('/uploader/my-comics');
+        } catch (error) {
+            console.error(error);
+            alert("❌ Failed to upload chapter!");
+        }
     };
 
     return (
-        <div className="max-w-3xl bg-white p-8 rounded-lg shadow-md">
-            <h1 className="text-3xl font-bold mb-8 text-gray-800">Upload New Chapter</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-6">
-                    <label className="block mb-2 text-gray-700 font-semibold">Chapter Number</label>
+        <div className="max-w-3xl bg-white p-8 rounded-lg shadow-md mx-auto">
+            <h1 className="text-3xl font-bold mb-8 text-gray-800 text-center">
+                Upload New Chapter
+            </h1>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Chapter Number */}
+                <div>
+                    <label className="block mb-2 text-gray-700 font-semibold">
+                        Chapter Number
+                    </label>
                     <input
                         type="number"
                         name="chapterNumber"
@@ -50,8 +58,11 @@ const UploadChapter = () => {
                     />
                 </div>
 
-                <div className="mb-6">
-                    <label className="block mb-2 text-gray-700 font-semibold">Chapter Title</label>
+                {/* Chapter Title */}
+                <div>
+                    <label className="block mb-2 text-gray-700 font-semibold">
+                        Chapter Title
+                    </label>
                     <input
                         type="text"
                         name="chapterTitle"
@@ -62,22 +73,42 @@ const UploadChapter = () => {
                     />
                 </div>
 
-                <div className="mb-8">
-                    <label className="block mb-2 text-gray-700 font-semibold">Chapter Images</label>
+                {/* Content */}
+                <div>
+                    <label className="block mb-2 text-gray-700 font-semibold">
+                        Content
+                    </label>
+                    <textarea
+                        name="content"
+                        value={formData.content}
+                        onChange={handleChange}
+                        rows="5"
+                        placeholder="Enter chapter content here..."
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-950 resize-none"
+                    />
+                </div>
+
+                {/* Single Image */}
+                <div>
+                    <label className="block mb-2 text-gray-700 font-semibold">
+                        Chapter Image
+                    </label>
                     <input
                         type="file"
                         accept="image/*"
-                        multiple
                         onChange={handleFileChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg"
                         required
                     />
-                    {formData.images.length > 0 && (
-                        <p className="mt-2 text-sm text-gray-600">{formData.images.length} images selected</p>
+                    {formData.image && (
+                        <p className="mt-2 text-sm text-gray-600">
+                            Selected: {formData.image.name}
+                        </p>
                     )}
                 </div>
 
-                <div className="flex gap-4 flex-wrap">
+                {/* Buttons */}
+                <div className="flex gap-4 flex-wrap justify-center">
                     <button
                         type="submit"
                         className="px-6 py-3 bg-purple-950 text-white rounded-lg hover:bg-purple-900 transition-colors font-semibold"

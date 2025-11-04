@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const MostPopular = () => {
   const [activeTab, setActiveTab] = useState('Monthly');
-
+  
   const popularData = {
     Monthly: [
       { id: 1, title: 'Solo Leveling', chapter: 'Chapter 179', views: '12.5M' },

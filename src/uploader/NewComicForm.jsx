@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { createComic } from '../services/comic';
 const NewComicForm = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -8,7 +8,7 @@ const NewComicForm = () => {
         description: '',
         author: '',
         genre: '',
-        cover: null
+        cover_image: null
     });
 
     const handleChange = (e) => {
@@ -22,16 +22,31 @@ const NewComicForm = () => {
     const handleFileChange = (e) => {
         setFormData(prev => ({
             ...prev,
-            cover: e.target.files[0]
+            cover_image: e.target.files[0]
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Creating comic:', formData);
-        // Add API call here
-        navigate('/uploader/my-comics');
-    };
+      
+        // ⚠️ Tạo FormData đúng chuẩn
+        const data = new FormData();
+        data.append('title', formData.title);
+        data.append('description', formData.description);
+        data.append('author', formData.author);
+        data.append('genre', formData.genre);
+        data.append('cover_image', formData.cover_image); // đây là file
+      
+        try {
+          const res = await createComic(data);
+          console.log(res);
+          navigate('/uploader/my-comics');
+        } catch (err) {
+          console.error('Error creating comic:', err.response?.data || err.message);
+        }
+      };
+      
 
     return (
         <div className="max-w-3xl bg-white p-8 rounded-lg shadow-md">

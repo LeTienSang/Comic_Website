@@ -1,6 +1,7 @@
 import Container from "./Container";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { AuthService } from "../../services/auth";
 
 const GENRE_ITEMS = [
   { label: "Action", href: "#" },
@@ -23,6 +24,7 @@ const NAV_ITEMS = [
 
 const Header = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [user, setUser] = useState(null); // 🟢 lưu thông tin user
   const genreRef = useRef(null);
   const listRef = useRef(null);
 
@@ -30,11 +32,27 @@ const Header = () => {
     setOpenDropdown(prev => prev === dropdown ? null : dropdown);
   }, []);
 
-  // Click outside để đóng dropdown
+  // 🟢 Lấy thông tin user khi component mount
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const currentUser = await AuthService.getCurrentUser();
+        console.log('Fetched user:', currentUser);
+        setUser(currentUser);
+      } catch {
+        setUser(null);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  // Đóng dropdown khi click ra ngoài
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (genreRef.current && !genreRef.current.contains(e.target) &&
-        listRef.current && !listRef.current.contains(e.target)) {
+      if (
+        genreRef.current && !genreRef.current.contains(e.target) &&
+        listRef.current && !listRef.current.contains(e.target)
+      ) {
         setOpenDropdown(null);
       }
     };
@@ -52,12 +70,11 @@ const Header = () => {
               <img src="./logo/comic.png" alt="Logo" className="h-22 w-auto hover:opacity-80 transition-opacity" />
             </Link>
 
-            {/* Navigation */}
             <nav className="flex gap-4 text-white text-base font-medium">
               <Link to="/" className="hover:text-yellow-300 transition-colors"> Home </Link>
 
               {/* Dropdown Genre */}
-              <div className="relative" ref={genreRef}>
+              {/* <div className="relative" ref={genreRef}>
                 <button
                   onClick={() => handleDropdownToggle('genre')}
                   className="hover:text-yellow-300 flex items-center gap-1 transition-colors"
@@ -77,9 +94,9 @@ const Header = () => {
                     ))}
                   </div>
                 )}
-              </div>
+              </div> */}
 
-              {/* Dropdown List */}
+              {/* Dropdown List
               <div className="relative" ref={listRef}>
                 <button
                   onClick={() => handleDropdownToggle('list')}
@@ -101,7 +118,7 @@ const Header = () => {
                     ))}
                   </div>
                 )}
-              </div>
+              </div> */}
 
               {NAV_ITEMS.map((item) => (
                 <a
@@ -115,10 +132,14 @@ const Header = () => {
             </nav>
           </div>
 
-          {/* Right: Search + Login */}
+          {/* Right: Search + Login/User */}
           <div className="flex items-center gap-2">
             <SearchBox />
-            <LoginButton />
+            {user ? (
+              <UserInfo user={user} />  // 🟢 Hiển thị tên user
+            ) : (
+              <LoginButton />           // 🟡 Nếu chưa login thì hiển thị nút login
+            )}
           </div>
         </div>
       </Container>
@@ -148,6 +169,19 @@ const LoginButton = () => (
   >
     Login
   </Link>
+);
+
+// 🟢 Component hiển thị user đã login
+const UserInfo = ({ user }) => (
+  
+  <div className="flex items-center gap-2 text-white">
+    <span className="font-medium">{user.fullname}</span>
+    {/* <img
+      src={user.avatar || "/default-avatar.png"}
+      alt="avatar"
+      className="w-8 h-8 rounded-full object-cover border border-white/40"
+    /> */}
+  </div>
 );
 
 export default Header;
