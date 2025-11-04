@@ -52,12 +52,10 @@ const LatestReleases = () => {
                 <ComicCard
                   imageUrl={comic.cover_image || '/default-comic.jpg'}
                   title={comic.title}
-                  chapter={comic.latest_chapter || 'N/A'}
                   timeAgo={comic.created_at ? new Date(comic.created_at).toLocaleDateString() : ''}
                   author={comic.author}
                   status={comic.status || 'Ongoing'}
                   genres={comic.genres || []}
-                  rating={comic.rating || 'N/A'}
                   description={comic.description}
                   comicId={comic.id}
                 />

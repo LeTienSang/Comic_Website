@@ -25,3 +25,11 @@ export const updatedComic = async (comicId: number, comicData: any) => {
       });
     return response.data;
     }
+export const getTopComic= async () => {
+    const response = await api.get('/comics/top/');
+    return response.data;
+    }
+export const getLastestUpdatedComic= async () => {
+    const response = await api.get('/comics/latest/');
+    return response.data;
+    }

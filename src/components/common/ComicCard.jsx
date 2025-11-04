@@ -6,7 +6,7 @@ const ComicCard = ({
   title,
   chapter,
   timeAgo = null,
-  comicId = 1, // Default comic ID
+  comicId,
   // Props cho tooltip
   author = '',
   status = '',
@@ -17,7 +17,7 @@ const ComicCard = ({
   return (
     <div className="relative group">
       <Link
-        to={`/comic/${comicId}`}
+        to= {`/comic/${comicId}`}
         className="block relative rounded-md overflow-hidden cursor-pointer transition-transform duration-200 hover:scale-[1.02] w-full aspect-[2/3] min-h-[180px] sm:min-h-[220px] md:min-h-[260px] bg-white border border-gray-200"
       >
         <div className="relative w-full h-full rounded-md overflow-hidden">

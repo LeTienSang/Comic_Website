@@ -1,52 +1,32 @@
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { getTopComic } from "../../services/comic";
 import Container from "../layout/Container";
 
 const PopularToday = () => {
-  const banners = [
-    {
-      id: 1,
-      title: "Comic Name 1",
-      year: 2020,
-      summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      status: "Ongoing",
-      genre: ["Action", "Adventure"],
-      rating: 9.7,
-      image: "/banners/trending.jpg",
-      type: "Manhwa",
-    },
-    {
-      id: 2,
-      title: "Comic Name 2",
-      year: 2021,
-      summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      status: "Ongoing",
-      genre: ["Fantasy", "Drama"],
-      rating: 9.5,
-      image: "/banners/trending.jpg",
-      type: "Manhua",
-    },
-    {
-      id: 3,
-      title: "Comic Name 3",
-      year: 2019,
-      summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      status: "Completed",
-      genre: ["Action", "Comedy"],
-      rating: 9.2,
-      image: "/banners/trending.jpg",
-      type: "Manga",
-    },
-  ];
+  const [comics, setComics] = useState([]);
 
+  useEffect(() => {
+    const fetchTopComics = async () => {
+      try {
+        const data = await getTopComic();
+        setComics(data);
+      } catch (error) {
+        console.error("Failed to load top comics:", error);
+      }
+    };
+    fetchTopComics();
+  }, []);
 
   return (
-    <div>
+    <Container>
       <h2 className="text-2xl font-bold mb-4 text-purple-950">Popular Today</h2>
+
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={20}
@@ -56,28 +36,36 @@ const PopularToday = () => {
         loop={true}
         className="rounded-lg shadow-lg"
       >
-        {banners.map((item) => (
+        {comics.map((item) => (
           <SwiperSlide key={item.id}>
             <Link
               to={`/comic/${item.id}`}
               className="relative flex text-white rounded-lg overflow-hidden cursor-pointer group transition-transform duration-200 hover:scale-[1.01]"
             >
-              {/* Background ảnh mờ */}
+              {/* Ảnh nền mờ */}
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{
-                  backgroundImage: `url(${item.image})`,
-                  filter: 'blur(16px)',
-                  transform: 'scale(1.1)'
+                  backgroundImage: `url(${
+                    item.cover_image
+                      ? `${item.cover_image}`
+                      : "/banners/trending.jpg"
+                  })`,
+                  filter: "blur(16px)",
+                  transform: "scale(1.1)",
                 }}
               ></div>
 
-              {/* Overlay tối */}
+              {/* Lớp phủ tối */}
               <div className="absolute inset-0 bg-black/50 pointer-events-none"></div>
 
               {/* Ảnh chính */}
               <img
-                src={item.image}
+                src={
+                  item.cover_image
+                    ? `${item.cover_image}`
+                    : "/banners/trending.jpg"
+                }
                 alt={item.title}
                 className="relative z-10 object-cover h-50 w-auto flex-shrink-0 overflow-hidden rounded-lg items-center my-auto ml-4"
               />
@@ -88,41 +76,32 @@ const PopularToday = () => {
                   <h3 className="text-xl font-bold truncate line-clamp-1">
                     {item.title}
                   </h3>
-                  <p className="text-yellow-300 text-sm">{item.year}</p>
-                  <p className="text-sm mt-2 font-semibold">Summary</p>
-                  <p className="text-sm text-gray-200 line-clamp-1">{item.summary}</p>
+                  <p className="text-yellow-300 text-sm">
+                    {item.genre || "Unknown genre"}
+                  </p>
+                  <p className="text-sm mt-2 font-semibold">Description</p>
+                  <p className="text-sm text-gray-200 line-clamp-2">
+                    {item.description || "No description available."}
+                  </p>
                   <p className="text-sm mt-2">
-                    <b>Status:</b> {item.status}
+                    <b>Author:</b> {item.author || "N/A"}
                   </p>
                   <p className="text-sm">
-                    <b>Type:</b> {item.type}
+                    <b>Read Count:</b> {item.read_count}
                   </p>
-
-                  {/* Genre */}
-                  <div className="mt-2 flex gap-2">
-                    {item.genre.map((tag, i) => (
-                      <span
-                        key={i}
-                        className="bg-yellow-300 text-purple-950 text-xs px-2 py-1 rounded-md"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
                 </div>
 
-                {/* Rating */}
+                {/* Rating hoặc Read count */}
                 <div className="ml-auto bg-yellow-300 text-purple-950 font-bold px-2 py-1 rounded-full relative z-10">
-                  {item.rating}
+                  {item.read_count} reads
                 </div>
               </div>
             </Link>
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
-
+    </Container>
   );
-}
+};
 
 export default PopularToday;

@@ -74,7 +74,7 @@ const Header = () => {
               <Link to="/" className="hover:text-yellow-300 transition-colors"> Home </Link>
 
               {/* Dropdown Genre */}
-              <div className="relative" ref={genreRef}>
+              {/* <div className="relative" ref={genreRef}>
                 <button
                   onClick={() => handleDropdownToggle('genre')}
                   className="hover:text-yellow-300 flex items-center gap-1 transition-colors"
@@ -94,9 +94,9 @@ const Header = () => {
                     ))}
                   </div>
                 )}
-              </div>
+              </div> */}
 
-              {/* Dropdown List */}
+              {/* Dropdown List
               <div className="relative" ref={listRef}>
                 <button
                   onClick={() => handleDropdownToggle('list')}
@@ -118,7 +118,7 @@ const Header = () => {
                     ))}
                   </div>
                 )}
-              </div>
+              </div> */}
 
               {NAV_ITEMS.map((item) => (
                 <a
