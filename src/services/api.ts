@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/", // hoặc URL backend của bạn
+  baseURL: "http://localhost:8086/", // hoặc URL backend của bạn
 });
 
 // Thêm token vào header nếu có

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getComicById, updatedComic } from '../services/comic';
 import { getChaptersByComic } from '../services/chapterService';
+import CommentPage from './CommentPage';
 
 const ComicPage = () => {
   const { id } = useParams(); // lấy id từ URL
@@ -9,7 +10,6 @@ const ComicPage = () => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [chapters, setChapters] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,6 +28,7 @@ const ComicPage = () => {
 
     fetchData();
   }, [id]);
+
 
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
@@ -83,7 +84,7 @@ const ComicPage = () => {
               </div>
 
               <div className="flex gap-3">
-                <button
+                {/* <button
                   onClick={handleFollow}
                   className={`px-4 py-2 rounded-md font-medium transition-colors ${
                     isFollowing
@@ -92,7 +93,7 @@ const ComicPage = () => {
                   }`}
                 >
                   {isFollowing ? 'Following' : 'Follow'}
-                </button>
+                </button> */}
 
                 <button
                   onClick={handleReadCount}
@@ -118,6 +119,7 @@ const ComicPage = () => {
           ))}
         </div>
       </div>
+      <CommentPage/>
     </div>
   );
 };

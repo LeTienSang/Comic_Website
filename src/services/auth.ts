@@ -1,7 +1,7 @@
 import axios from "axios";
 import api from "./api";
 
-const API_URL = "http://localhost:8000/users"; // URL backend Django
+const API_URL = "http://localhost:8086/users"; // URL backend Django
 
 export interface LoginResponse {
   access: string;

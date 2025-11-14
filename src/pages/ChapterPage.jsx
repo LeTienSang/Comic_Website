@@ -73,7 +73,7 @@ const ChapterPage = () => {
       )}
         {/* Navigation Buttons */}
         <div className="flex justify-center gap-4 mt-8 mb-8">
-          <button
+          {/* <button
             onClick={() => changeChapter(-1)}
             disabled={chapter.number === 1}
             className="px-6 py-3 bg-purple-950 hover:bg-purple-900 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg transition-colors font-semibold flex items-center gap-2"
@@ -82,8 +82,8 @@ const ChapterPage = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             Previous Chapter
-          </button>
-          <button
+          </button> */}
+          {/* <button
             onClick={() => changeChapter(1)}
             disabled={chapter.number === chapter.total_chapters}
             className="px-6 py-3 bg-purple-950 hover:bg-purple-900 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg transition-colors font-semibold flex items-center gap-2"
@@ -92,7 +92,7 @@ const ChapterPage = () => {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
