@@ -6,6 +6,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ComicPage from "./pages/ComicPage";
 import ChapterPage from "./pages/ChapterPage";
 import ProfilePage from "./pages/ProfilePage";
+import ChatPage from './pages/ChatPage';
 
 // Uploader components
 import UploaderLayout from "./uploader/UploaderLayout";
@@ -53,8 +54,8 @@ function App() {
             <ChapterPage />
           </Layout>
         } />
-        <Route path="/comments" element={
-          <CommentPage/>
+        <Route path="/chat" element={
+          <ChatPage/>
         } />
 
         {/* Uploader Routes */}

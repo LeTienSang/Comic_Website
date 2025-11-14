@@ -1,25 +1,35 @@
 import { useEffect, useState } from "react";
-import { getComments, createComment } from "../services/commentService";
+import { useParams } from "react-router-dom"; // import useParams
+import { getComments, createComment, getCommentByComic } from "../services/commentService";
 
 export default function CommentPage() {
+    const { id } = useParams();
     const [comments, setComments] = useState([]);
     const [content, setContent] = useState("");
 
     const fetchComments = async () => {
-        const data = await getComments();
+        let data = [];
+        if (id){
+            data = await getCommentByComic(id);
+        }
+        else{
+            data = await getComments();
+        }
         setComments(data);
     };
 
     useEffect(() => {
         fetchComments();
-    }, []);
+    }, [id]);
+    console.log('aaa', id);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!content.trim()) return;
 
         try {
-            await createComment(content);
+            console.log("Submitting comment:", { content, id });
+            await createComment(content, id);
             setContent("");
             fetchComments();  // reload comment
         } catch (err) {
